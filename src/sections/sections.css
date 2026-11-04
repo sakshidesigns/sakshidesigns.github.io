@@ -1,0 +1,164 @@
+/* Tailwind for the lifted sections. Utilities only: NO preflight (it would
+   reset the hand-written hero CSS), and no automatic source scanning (so only
+   files under src/sections generate utilities). */
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities) source(none);
+@source "./";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Playfair Display", Georgia, serif;
+  --color-ink: #0f1f4d;
+  --color-brand: #2f7ff2;
+  /* Text shades: #2f7ff2 is only 2.5-3.5:1 on the sky and 3.1-4.6:1 on the footer. */
+  --color-brand-deep: #174aad; /* eyebrows and emphasis on the sky (>= 5.2:1) */
+  --color-brand-light: #7db4ff; /* eyebrow and emphasis on the dark footer (>= 5.6:1) */
+}
+
+/* The lifted components were written against Tailwind's preflight. This is a
+   scoped replacement. It lives in @layer base, below utilities: unlayered
+   rules would otherwise beat utilities such as `mb-5`. Also covers
+   .case-study-page: the case-study route sits outside .site-sections (it's
+   a separate top-level page, not one of the lifted home-page sections) but
+   needs the same reset. */
+@layer base {
+  .site-sections h1,
+  .site-sections h2,
+  .site-sections h3,
+  .site-sections h4,
+  .site-sections p,
+  .site-sections blockquote,
+  .case-study-page h1,
+  .case-study-page h2,
+  .case-study-page h3,
+  .case-study-page h4,
+  .case-study-page p,
+  .case-study-page blockquote {
+    margin: 0;
+    font-size: inherit;
+    font-weight: inherit;
+  }
+  .site-sections ul,
+  .site-sections ol,
+  .case-study-page ul,
+  .case-study-page ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .site-sections a,
+  .case-study-page a {
+    color: inherit;
+    text-decoration: inherit;
+  }
+  .site-sections img,
+  .site-sections svg,
+  .case-study-page img,
+  .case-study-page svg {
+    display: block;
+    max-width: 100%;
+  }
+  .site-sections button,
+  .case-study-page button {
+    font: inherit;
+    color: inherit;
+    background: none;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+  }
+  /* dl/dt/dd aren't used anywhere else on the site; only the case-study
+     meta grid (Role/Scope/Platform/Domain) needs their UA margins cleared. */
+  .case-study-page dl,
+  .case-study-page dd {
+    margin: 0;
+  }
+  /* The native cursor is hidden on fine pointers, so keyboard focus must be
+     unmistakable on light, blue and dark surfaces alike (navy ring + white halo). */
+  .site-sections a:focus-visible,
+  .site-sections button:focus-visible,
+  .case-study-page a:focus-visible,
+  .case-study-page button:focus-visible {
+    outline: 2px solid #0f1f4d;
+    outline-offset: 3px;
+    box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.85);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+::selection {
+  background: var(--color-brand);
+  color: #ffffff;
+}
+
+/* Grain overlay used by the Work cards. */
+.noise::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* "What I do": continues the hero's own fade toward near-white (its mist
+   colour, #e8ecf1) instead of showing blue sky here. Stays solid white the
+   rest of the way through: #work now carries the white forward through its
+   own heading (see #work below), so About no longer needs to fade back to
+   blue before Work begins - that used to leave a blue band sandwiched
+   between the two white sections. */
+#about {
+  background: linear-gradient(180deg, #e8ecf1 0px, #ffffff 160px, #ffffff 100%);
+}
+
+/* Work card surface: the exact hero sky gradient (same tokens, same vivid
+   blue), so the card reads as a continuation of the hero's own sky rather
+   than an invented colour. The card stays opaque so stacked cards do not
+   ghost through each other while scrolling. Text now lives in its own
+   glass panel (.work-card-glass below), not directly on this surface. */
+.card-sky-gradient {
+  background: linear-gradient(180deg, var(--sky-top) 0%, var(--sky-mid) 55%, var(--sky-bottom) 100%);
+}
+
+/* Work card info panel: no fill colour of its own at all - it reads as the
+   card's own sky, just separated out and highlighted, not a box sitting on
+   top of it in a different colour. The separation comes entirely from
+   backdrop-filter (blurring the sky and clouds behind it) plus a thin
+   border and shadow for edge definition. With no background colour behind
+   it, there is nothing for text contrast to be measured against; the white
+   text instead gets a dark text-shadow so it stays readable against
+   whatever part of the moving sky happens to be behind it. */
+.work-card-glass {
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  -webkit-backdrop-filter: blur(24px) saturate(115%);
+  backdrop-filter: blur(24px) saturate(115%);
+  box-shadow:
+    0 20px 45px rgba(8, 20, 45, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  text-shadow: 0 1px 3px rgba(8, 20, 45, 0.45), 0 4px 16px rgba(8, 20, 45, 0.35);
+}
+
+/* "Selected Work" continues the white from "What I do" above it; fades out
+   before the pinned card stack begins, so the cards' own vivid sky shows
+   through underneath them once scrolling starts. */
+#work {
+  background: linear-gradient(180deg, #ffffff 0px, #ffffff 420px, rgba(255, 255, 255, 0) 640px);
+}
+
+/* Experience: the reference the user pointed at is plain white/pale, not
+   another sky panel - so this section gets its own white background
+   (same technique as #about/#work above) rather than showing the shared
+   blue through. It stays white for almost its whole (very tall, pinned)
+   height, then fades toward a pale blue in the last stretch so the handoff
+   into the footer's own gradient (which starts near-transparent, then
+   blue, then navy) reads as one continuous transition rather than a cut. */
+#experience {
+  background: linear-gradient(180deg, #ffffff 0%, #ffffff 85%, #cfe9fd 100%);
+}

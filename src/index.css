@@ -1,0 +1,662 @@
+:root {
+  --sky-top: #3d9bf5;
+  --sky-mid: #6cb8f8;
+  --sky-bottom: #9fd8ff;
+  --ink: #0f1f4d;
+  --bg: var(--sky-mid);
+  --text: var(--ink);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: var(--bg);
+}
+
+body {
+  font-family: "Inter", system-ui, sans-serif;
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+@media (pointer: fine) {
+  body {
+    cursor: none;
+  }
+}
+
+/* A reserved-space rule (via a CSS property meant to balance a fixed-width
+   scroll indicator against both edges of the window) was tried here to
+   balance the Work cards against the native scroll indicator, but fixed,
+   full-bleed layers (.site-sky, .hero) don't paint into reserved space like
+   that - only into the true viewport - so the reserved strip on the side
+   with no real scroll indicator showed the bare `body` background
+   (--sky-mid, flat) instead of the sky gradient, visible as a seam down one
+   edge of the entire page. That full-page seam is worse than the few pixels
+   of Work-card asymmetry it was meant to fix, so it's reverted; native
+   behaviour stays as-is. */
+
+/* --- Nav --- */
+.site-nav {
+  position: fixed;
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 28px;
+  padding: 14px 28px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.28);
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 8px 24px rgba(20, 60, 140, 0.12);
+  z-index: 50; /* above .hero-content (20), which now scrolls up under the pill; below ScrollProgress (60) */
+}
+
+.site-nav a {
+  color: var(--ink);
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* --- Hero content --- */
+.hero-content {
+  position: absolute;
+  left: 5vw;
+  top: 24vh;
+  z-index: 20;
+  max-width: 340px;
+}
+
+.hero-greeting {
+  margin: 0;
+  font-family: "Dancing Script", cursive;
+  font-weight: 600;
+  font-size: 1.7rem;
+  color: var(--ink);
+}
+
+.hero-name {
+  margin: 0 0 14px;
+  width: min-content; /* one word per line, like the reference */
+  font-family: "Playfair Display", Georgia, serif;
+  font-weight: 700;
+  font-size: clamp(3.2rem, 7vw, 6.2rem);
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+.hero-role {
+  margin: 0 0 14px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.hero-bio {
+  margin: 0 0 26px;
+  max-width: 300px;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: rgba(15, 31, 77, 0.8);
+}
+
+.hero-actions {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: transform 0.2s ease;
+}
+
+.pill:hover {
+  transform: translateY(-2px);
+}
+
+/* body { cursor: none } hides the pointer on fine-pointer devices, so a
+   strong, always-visible keyboard focus ring is essential. */
+.pill:focus-visible,
+.site-nav a:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.75);
+  border-radius: 999px;
+}
+
+.pill-solid {
+  background: var(--ink);
+  color: #ffffff;
+}
+
+.pill-outline {
+  background: rgba(255, 255, 255, 0.28);
+  color: var(--ink);
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+@media (max-width: 640px) {
+  .site-nav {
+    gap: 16px;
+    padding: 10px 18px;
+    top: 16px;
+  }
+  .site-nav a {
+    font-size: 0.72rem;
+  }
+}
+
+/* --- Magnetic cursor --- */
+.magnetic-cursor-dot,
+.magnetic-cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  border-radius: 50%;
+  z-index: 9999;
+  will-change: transform;
+}
+
+.magnetic-cursor-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--ink);
+  box-shadow: 0 0 12px 4px rgba(255, 255, 255, 0.7);
+}
+
+.magnetic-cursor-ring {
+  width: 36px;
+  height: 36px;
+  border: 1.5px solid rgba(15, 31, 77, 0.55);
+}
+
+@media (pointer: coarse) {
+  .magnetic-cursor-dot,
+  .magnetic-cursor-ring {
+    display: none;
+  }
+}
+
+/* --- Hero --- */
+.hero {
+  position: relative;
+  width: 100%; /* not 100vw: that includes the page scrollbar and would crop the hero */
+  height: 100vh;
+  height: 100dvh; /* tracks phone browser toolbars; the canvas measures its own size */
+  overflow: hidden;
+  background: linear-gradient(180deg, var(--sky-top) 0%, var(--sky-mid) 48%, var(--sky-bottom) 100%);
+}
+
+/* Fills the hero (which is 100dvh and scrolls with the page). The bitmap is
+   sized from this element's own client size, so it is never stretched by a
+   mobile toolbar or the page scrollbar. */
+.hero-canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* --- Sky clouds --- */
+.sky-clouds {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 58vh;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+  /* Confine the clouds to a soft pool behind the character's head: top
+     half only, fading out toward the edges and downward. */
+  -webkit-mask-image: radial-gradient(ellipse 70% 100% at 50% 0%, #000 35%, transparent 100%);
+  mask-image: radial-gradient(ellipse 70% 100% at 50% 0%, #000 35%, transparent 100%);
+}
+
+.sky-cloud-layer {
+  position: absolute;
+  left: 0;
+  display: flex;
+  width: max-content;
+  will-change: transform;
+  animation: cloud-drift linear infinite;
+  /* The noise tile is cut off flat at its top and bottom edges; fade both
+     so no straight horizontal cloud edge is ever visible. */
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 22%, #000 72%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 22%, #000 72%, transparent 100%);
+}
+
+.sky-cloud-layer svg {
+  display: block;
+  flex: none;
+}
+
+@keyframes cloud-drift {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-1600px);
+  }
+}
+
+/* --- Summary cards --- */
+.summary-cards {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  pointer-events: none;
+  z-index: 15;
+}
+
+.summary-card {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: clamp(190px, 17vw, 250px);
+  padding: 14px 18px;
+  border-radius: 20px;
+  color: var(--ink);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.34), rgba(255, 255, 255, 0.14));
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow:
+    0 18px 40px rgba(20, 60, 140, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  transform: rotate(var(--tilt, 0deg));
+  animation: card-float var(--float-duration, 8s) ease-in-out infinite;
+  animation-delay: var(--float-delay, 0s);
+}
+
+.summary-card-icon {
+  flex: none;
+  display: grid;
+  place-items: center;
+}
+
+.summary-card-text p {
+  margin: 0;
+}
+
+.summary-card-label {
+  font-size: 0.72rem;
+  letter-spacing: 0.02em;
+  opacity: 0.72;
+}
+
+.summary-card-value {
+  margin-top: 2px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.summary-card-detail {
+  margin-top: 3px;
+  font-size: 0.7rem;
+  line-height: 1.3;
+  opacity: 0.72;
+}
+
+/* Initial placements (tuned against the face and text column in Task 8). */
+.summary-card-focus {
+  left: 15%;
+  top: 9%;
+  --tilt: -5deg;
+  --float-duration: 8s;
+  --float-delay: 0s;
+}
+.summary-card-location {
+  right: 12%;
+  top: 17%;
+  --tilt: 4deg;
+  --float-duration: 9s;
+  --float-delay: -2s;
+}
+.summary-card-experience {
+  right: 4%;
+  top: 58%;
+  --tilt: -4deg;
+  --float-duration: 7.5s;
+  --float-delay: -4s;
+}
+.summary-card-craft {
+  right: 9%;
+  top: 37%;
+  --tilt: 5deg;
+  --float-duration: 8.5s;
+  --float-delay: -1s;
+}
+
+@keyframes card-float {
+  0%,
+  100% {
+    transform: rotate(var(--tilt, 0deg)) translateY(0);
+  }
+  50% {
+    transform: rotate(var(--tilt, 0deg)) translateY(-6px);
+  }
+}
+
+/* --- Bottom mist: melts the white table strip into the scene --- */
+.hero-mist {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 10vh;
+  pointer-events: none;
+  z-index: 5;
+  background: linear-gradient(to top, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.2) 45%, rgba(255, 255, 255, 0));
+}
+
+/* --- Compact layout for phones, portrait tablets (aspect <= 1) and short
+   landscape windows: name, role and buttons in the open sky on top and the
+   character bottom-anchored (see computeStageTransform). The summary is a
+   single scrollable strip over her sweater, well below her face; the strip
+   cards use a whiter frost so navy text stays legible on the dark sweater. --- */
+@media (max-width: 640px), (max-aspect-ratio: 1/1), (max-height: 560px) {
+  .hero-content {
+    top: 76px;
+    left: 6vw;
+    right: 6vw;
+    max-width: none;
+  }
+  .hero-name {
+    font-size: clamp(2.8rem, 15vw, 3.8rem);
+  }
+  .hero-role {
+    margin-bottom: 16px;
+  }
+  .hero-bio {
+    display: none;
+  }
+  .summary-cards {
+    inset: auto 0 3vh 0;
+    padding: 0 6vw;
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    scroll-padding: 0 6vw;
+    scrollbar-width: none;
+    pointer-events: auto;
+  }
+  .summary-cards::-webkit-scrollbar {
+    display: none;
+  }
+  .summary-card {
+    position: static;
+    flex: 0 0 min(64%, 260px);
+    width: auto;
+    padding: 10px 12px;
+    gap: 8px;
+    --tilt: 0deg;
+    scroll-snap-align: start;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.82), rgba(255, 255, 255, 0.66));
+    border-color: rgba(255, 255, 255, 0.9);
+  }
+  .summary-card-detail {
+    display: none;
+  }
+  .summary-card-icon svg {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+/* Tall phones: the open sky between the buttons and her head fits the whole
+   summary as a 2x2 grid, so nothing needs scrolling. (Below ~800px of height
+   the grid would reach her forehead, so those phones keep the strip.) */
+@media (max-width: 640px) and (min-height: 800px) {
+  .summary-cards {
+    inset: auto 6vw auto 6vw;
+    top: 340px;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    overflow: visible;
+    pointer-events: none;
+  }
+  .summary-card {
+    flex: none;
+  }
+}
+
+/* Short landscape windows (e.g. a phone on its side): shrink the type so the
+   buttons stay on screen, and tuck the nav up so it clears her crown. */
+@media (max-height: 560px) {
+  .site-nav {
+    top: 10px;
+    padding: 8px 18px;
+  }
+  .hero-content {
+    top: 60px;
+  }
+  .hero-name {
+    font-size: clamp(2.2rem, 13vh, 3.4rem);
+  }
+  .hero-role {
+    margin-bottom: 12px;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+  }
+  .hero-actions .pill {
+    padding: 9px 18px;
+  }
+}
+
+/* --- Reduced motion --- */
+@media (prefers-reduced-motion: reduce) {
+  .sky-cloud-layer,
+  .summary-card,
+  .loader-plane,
+  .loader-cloud,
+  .loader-trail line {
+    animation: none;
+  }
+
+  /* The trail's only visible state comes from its animation; freezing it
+     without a fallback opacity would leave it permanently invisible. */
+  .loader-trail line {
+    opacity: 1;
+  }
+}
+
+/* --- Page loader: sky splash until every frame is decoded --- */
+.page-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 9998; /* above the page, below the custom cursor */
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 14px;
+  background: linear-gradient(180deg, var(--sky-top) 0%, var(--sky-mid) 55%, var(--sky-bottom) 100%);
+  color: var(--ink);
+  transition: opacity 0.6s ease, visibility 0s linear 0.6s;
+}
+
+.page-loader.is-done {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* Deep, high-contrast blue (same shade sections.css uses for text and icons
+   directly on this sky gradient - proven >= 5.2:1) so the plane and clouds
+   read clearly against the loader's own light-to-mid blue background. */
+.loader-plane-scene {
+  color: #174aad;
+  overflow: visible;
+}
+
+.loader-plane,
+.loader-cloud {
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.loader-plane {
+  transform-origin: 36px 29px;
+  transform-box: fill-box;
+  animation: loader-plane-bob 2.4s ease-in-out infinite;
+}
+
+.loader-cloud {
+  fill: currentColor;
+  stroke: none;
+  opacity: 0.7;
+  animation: loader-cloud-bob 3.2s ease-in-out infinite;
+}
+
+.loader-cloud-b {
+  animation-delay: -1.4s;
+}
+
+.loader-trail line {
+  stroke: currentColor;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  opacity: 0;
+  animation: loader-trail-streak 1.6s ease-in-out infinite;
+}
+
+.loader-trail line:nth-child(2) {
+  animation-delay: 0.18s;
+}
+
+.loader-trail line:nth-child(3) {
+  animation-delay: 0.36s;
+}
+
+@keyframes loader-plane-bob {
+  0%,
+  100% {
+    transform: rotate(-16deg) translateY(0);
+  }
+  50% {
+    transform: rotate(-16deg) translateY(-3px);
+  }
+}
+
+@keyframes loader-cloud-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes loader-trail-streak {
+  0% {
+    opacity: 0;
+    transform: translateX(6px);
+  }
+  35% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  70% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-6px);
+  }
+}
+
+.page-loader-caption {
+  margin: 0;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #174aad;
+}
+
+.page-loader-track {
+  width: 160px;
+  height: 3px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.45);
+  overflow: hidden;
+}
+
+.page-loader-bar {
+  height: 100%;
+  background: var(--ink);
+  transform-origin: left center;
+  transition: transform 0.25s ease-out;
+}
+
+/* --- Sections below the hero: one continuous sky --- */
+.site-sections {
+  position: relative;
+  /* The hero ends in the pale table + mist (#e8ecf1). Start exactly there and
+     ease into the sky blue over ~300px like horizon haze, so there is no seam. */
+  background: linear-gradient(180deg, #e8ecf1 0px, #c7e3f9 110px, var(--sky-bottom) 300px, #cfe9fd 60%, #eaf5ff 100%);
+  color: var(--ink);
+  /* Clips the fixed .site-sky to this wrapper (overflow does not clip fixed
+     descendants; clip-path does) and creates the stacking context that keeps
+     the z-index -1 layer above this background but behind the sections. */
+  clip-path: inset(0);
+  /* Words burst in from a 1.8x scale; that transient overflow must not widen the
+     page. clip (unlike hidden) does not create a scroll container, so the sticky
+     Work and Experience sections keep working. */
+  overflow-x: clip;
+}
+
+.site-sky {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* Compact clouds sit inside a card: fill the card, not the viewport. */
+.sky-clouds-compact {
+  height: 100%;
+}
+
+/* Clouds inside the Work cards drift, same as the hero's own sky: the user
+   asked explicitly for them to keep moving (overrides the earlier
+   performance-only decision to freeze them). */

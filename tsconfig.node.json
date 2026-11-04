@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "composite": true,
+    // TS6310 forbids `noEmit` on a referenced composite project, so instead
+    // park the emit somewhere harmless. Without this, `tsc -b` drops a
+    // generated vite.config.js next to the real vite.config.ts, and Vite's
+    // config resolution prefers the .js -- silently loading stale config.
+    "outDir": "./node_modules/.tmp/tsconfig-node-out",
+    "skipLibCheck": true,
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "allowSyntheticDefaultImports": true
+  },
+  "include": ["vite.config.ts"]
+}
