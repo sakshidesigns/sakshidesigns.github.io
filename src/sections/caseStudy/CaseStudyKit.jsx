@@ -12,7 +12,7 @@ import { SkyClouds } from '../../components/SkyClouds'
 const TONE_STYLES = {
   light: 'bg-white text-ink',
   tint: 'bg-[#eef6ff] text-ink',
-  dark: 'bg-[#0b1638] text-white',
+  dark: 'bg-white text-ink', // was navy; the case studies now stay light like the home page
   // card-sky-gradient is the exact hero gradient (same --sky-* tokens), also
   // already used behind the Work cards - reused here rather than inventing
   // a new blue. Background only; the drifting clouds are a separate layer
@@ -21,7 +21,7 @@ const TONE_STYLES = {
 }
 // Tones with a dark or vivid background, where the numeral/eyebrow need the
 // white-based opacity classes instead of the ink-based ones.
-const LIGHT_TEXT_TONES = new Set(['dark', 'sky'])
+const LIGHT_TEXT_TONES = new Set(['sky'])
 
 // A gentler, more "decelerate into place" curve than the previous
 // [0.65,0,0.35,1] (which eases in AND out, reading as a mechanical slide
@@ -248,10 +248,10 @@ export function CaseStudyMeta({ tone = 'light', items }) {
     <dl className="mt-8 grid grid-cols-2 gap-x-8 gap-y-4 sm:grid-cols-4">
       {items.map(({ label, value }) => (
         <div key={label}>
-          <dt className={`text-xs font-semibold uppercase tracking-[0.15em] ${tone === 'dark' ? 'text-white/40' : 'text-ink/40'}`}>
+          <dt className={`text-xs font-semibold uppercase tracking-[0.15em] ${tone === 'sky' ? 'text-white/40' : 'text-ink/40'}`}>
             {label}
           </dt>
-          <dd className={`mt-1 text-sm font-semibold ${tone === 'dark' ? 'text-white' : 'text-ink'}`}>{value}</dd>
+          <dd className={`mt-1 text-sm font-semibold ${tone === 'sky' ? 'text-white' : 'text-ink'}`}>{value}</dd>
         </div>
       ))}
     </dl>
@@ -263,8 +263,8 @@ export function CaseStudyList({ tone = 'light', items }) {
     <ul className="mt-6 max-w-2xl space-y-3">
       {items.map((item) => (
         <li key={item} className="flex gap-3">
-          <span className={`mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full ${tone === 'dark' ? 'bg-white/50' : 'bg-brand'}`} />
-          <span className={`text-base leading-relaxed sm:text-lg ${tone === 'dark' ? 'text-white/70' : 'text-ink/70'}`}>
+          <span className={`mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full ${tone === 'sky' ? 'bg-white/50' : 'bg-brand'}`} />
+          <span className={`text-base leading-relaxed sm:text-lg ${tone === 'sky' ? 'text-white/70' : 'text-ink/70'}`}>
             {item}
           </span>
         </li>
@@ -359,7 +359,7 @@ export function MediaPlaceholder({
   return (
     <div
       className={`mt-10 flex flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed px-6 text-center ${aspect} ${
-        tone === 'dark' ? 'border-white/20 text-white/50' : 'border-ink/15 text-ink/45'
+        tone === 'sky' ? 'border-white/20 text-white/50' : 'border-ink/15 text-ink/45'
       }`}
     >
       <p className="text-sm font-semibold">{label}</p>

@@ -104,58 +104,40 @@ export const writing = [
   },
 ]
 
-export const experience = {
-  eyebrow: 'Experience',
-  heading: 'the journey so far',
-  subheading: 'From enterprise SAP apps to civic-tech platforms to brand-led agency work — three+ years, and counting.',
+export const graphics = {
+  heading: 'And the stuff I create otherwise!',
+  items: [
+    { src: '/graphics/wedding-vermala.webp', alt: 'Wedding illustration of a bride and groom exchanging garlands' },
+    { src: '/graphics/celebration.webp', alt: 'A celebration post design' },
+    { src: '/graphics/ergen-expo.webp', alt: 'Ergen expo event post' },
+    { src: '/graphics/cheesecake-story.webp', alt: 'Cheesecake social story' },
+    { src: '/graphics/battery-charger.webp', alt: 'Battery charger product post' },
+    { src: '/graphics/reminder-note.webp', alt: 'Reminder note quote post' },
+    { src: '/graphics/champ.webp', alt: 'Champ poster design' },
+    { src: '/graphics/ergen-square.webp', alt: 'Ergen square flex design' },
+    { src: '/graphics/posted.webp', alt: 'Social media post design' },
+    { src: '/graphics/yummy.webp', alt: 'Food post design' },
+  ],
+}
+
+export const testimonials = {
+  eyebrow: 'Testimonials',
+  heading: 'see what they say',
+  subheading: 'Check what they have said about working with me.',
   items: [
     {
-      period: "Mar '21 – Present",
-      current: true,
-      role: 'Freelance UI/UX Designer',
-      company: 'Independent',
-      location: 'Remote',
-      points: [
-        'Designed end-to-end UX for **SaaS, civic-tech, healthcare, real estate & NGO** products.',
-        'Built complex **dashboards, role-based workflows, mobile apps** and design systems.',
-        'Turned business requirements into clear, **scalable digital experiences**.',
-      ],
+      quote:
+        'Sakshi is dependable, creative, and takes genuine ownership of her work. She consistently delivers on time, communicates confidently with clients, and goes beyond her responsibilities to contribute to better design and user experiences. Her dedication and ability to handle challenges make her a strong team player.',
+      name: 'Akshata Ghate',
+      role: 'CEO',
+      company: 'Globuzz',
     },
     {
-      period: "Feb '24 – Sep '25",
-      current: false,
-      role: 'Packaged App Development Associate',
-      company: 'Accenture',
-      location: 'India',
-      points: [
-        'Improved UX for **enterprise SAP-based applications**.',
-        'Designed and tested UI components using **SAPUI5, HTML & CSS**.',
-        'Worked with cross-functional teams to translate complex workflows into **usable interfaces**.',
-      ],
-    },
-    {
-      period: "Sep '23 – Jan '24",
-      current: false,
-      role: 'UI/UX Designer & Brand Lead',
+      quote:
+        'Sakshi brings a thoughtful blend of creativity and problem-solving to her work. What stood out to me was her ability to look beyond the brief, understand what a project truly needs, and turn those ideas into meaningful design experiences. Her contribution to our client projects, particularly in website design and brand consistency, reflected her initiative, adaptability, and strong sense of ownership.',
+      name: 'Vaibhav Pagare',
+      role: 'Co-founder',
       company: 'IFT Media',
-      location: 'India',
-      points: [
-        "Led the redesign of **Kiosk Kaffee's** website and digital presence.",
-        'Created brand, UI and visual systems across **multiple client projects**.',
-        'Helped drive **15–20% growth** in website traffic for Kiosk Kaffee.',
-      ],
-    },
-    {
-      period: "Jan '23 – Aug '23",
-      current: false,
-      role: 'UI/UX Designer & Digital Lead',
-      company: 'Globuzz Inc.',
-      location: 'India',
-      points: [
-        'Led **UI/UX, graphic design and video** for digital campaigns.',
-        'Aligned website and social experiences with **brand direction**.',
-        'Collaborated with developers to improve **website UX and performance**.',
-      ],
     },
   ],
 }

@@ -1,9 +1,8 @@
 import { render } from "@testing-library/react";
 import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
-import Experience from "./components/Experience";
 import Intro from "./components/Intro";
 import Work from "./components/Work";
-import { experience, work } from "./data";
+import { work } from "./data";
 
 // framer-motion reads the OS setting on the first useReducedMotion() call, so
 // the stub must be in place before any component renders.
@@ -29,13 +28,6 @@ describe("scroll-linked effects respect prefers-reduced-motion", () => {
     work.forEach((item) => expect(getByText(item.title)).toBeInTheDocument());
   });
 
-  it("Experience becomes a vertical list: no horizontal pan, nothing pinned", () => {
-    const { container, getByText } = render(<Experience />);
-    expect(container.querySelector(".sticky")).toBeNull();
-    expect(container.querySelector("#experience [style*='height']")).toBeNull();
-    expect(container.querySelector(".flex-col.items-center.gap-10")).not.toBeNull();
-    experience.items.forEach((item) => expect(getByText(item.company)).toBeInTheDocument());
-  });
 
   it("Intro shows the whole statement at full strength with no per-word blur", () => {
     const { container } = render(<Intro />);

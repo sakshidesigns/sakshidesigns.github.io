@@ -76,20 +76,20 @@ export default function KoraCaseStudy() {
 
         <div className="mt-10 grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
           <div>
-            <h3 className="font-serif text-lg font-bold text-white">Clear hierarchy</h3>
-            <p className="mt-1 text-white/70">Organised content and readable mobile layouts.</p>
+            <h3 className="font-serif text-lg font-bold text-ink">Clear hierarchy</h3>
+            <p className="mt-1 text-ink/70">Organised content and readable mobile layouts.</p>
           </div>
           <div>
-            <h3 className="font-serif text-lg font-bold text-white">Simple navigation</h3>
-            <p className="mt-1 text-white/70">A predictable way to move between key app areas.</p>
+            <h3 className="font-serif text-lg font-bold text-ink">Simple navigation</h3>
+            <p className="mt-1 text-ink/70">A predictable way to move between key app areas.</p>
           </div>
           <div>
-            <h3 className="font-serif text-lg font-bold text-white">Accessible records</h3>
-            <p className="mt-1 text-white/70">Health documents presented in a structured way.</p>
+            <h3 className="font-serif text-lg font-bold text-ink">Accessible records</h3>
+            <p className="mt-1 text-ink/70">Health documents presented in a structured way.</p>
           </div>
           <div>
-            <h3 className="font-serif text-lg font-bold text-white">Privacy in mind</h3>
-            <p className="mt-1 text-white/70">Considered handling of sensitive personal information.</p>
+            <h3 className="font-serif text-lg font-bold text-ink">Privacy in mind</h3>
+            <p className="mt-1 text-ink/70">Considered handling of sensitive personal information.</p>
           </div>
         </div>
 

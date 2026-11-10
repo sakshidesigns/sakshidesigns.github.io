@@ -5,8 +5,9 @@ export function HeroContent() {
       <p className="hero-greeting">Hi, I&apos;m</p>
       <h1 className="hero-name">Sakshi Haste</h1>
       <p className="hero-role">UI/UX &amp; Product Designer</p>
-      <p className="hero-bio">
-        Designing clear, thoughtful digital experiences across product, UX and visual design.
+      <p className="hero-bio">Designing for scalable, complex digital products.</p>
+      <p className="hero-previously">
+        Previously @ <img className="hero-previously-logo" src="/accenture-navy.webp" alt="Accenture" />
       </p>
       <div className="hero-actions">
         <a className="pill pill-solid" href="/resume.pdf" target="_blank" rel="noreferrer" data-cursor-hover>

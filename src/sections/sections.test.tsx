@@ -1,12 +1,13 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
-import Experience from "./components/Experience";
+import Graphics from "./components/Graphics";
+import Testimonials from "./components/Testimonials";
 import Footer from "./components/Footer";
 import Intro from "./components/Intro";
 import ScrollProgress from "./components/ScrollProgress";
 import Work from "./components/Work";
 import Writing from "./components/Writing";
-import { experience, footer, profile, work, writing } from "./data";
+import { footer, graphics, profile, testimonials, work, writing } from "./data";
 
 describe("lifted sections render", () => {
   it("Intro shows its eyebrow and the full statement", () => {
@@ -23,9 +24,20 @@ describe("lifted sections render", () => {
     work.forEach((item) => expect(screen.getByText(item.title)).toBeInTheDocument());
   });
 
-  it("Experience shows every company", () => {
-    render(<Experience />);
-    experience.items.forEach((item) => expect(screen.getByText(item.company)).toBeInTheDocument());
+  it("Graphics shows its wavy heading and every picture", () => {
+    const { container } = render(<Graphics />);
+    expect(container.querySelector("#graphics")).not.toBeNull();
+    expect(screen.getByRole("heading", { name: graphics.heading })).toBeInTheDocument();
+    graphics.items.forEach((item) => expect(screen.getAllByAltText(item.alt).length).toBeGreaterThan(0));
+  });
+
+  it("Testimonials shows one quote at a time and the arrows move between them", async () => {
+    render(<Testimonials />);
+    const [first, second] = testimonials.items;
+    expect(screen.getByText(first.quote)).toBeInTheDocument();
+    expect(screen.queryByText(second.quote)).toBeNull(); // one at a time
+    fireEvent.click(screen.getByRole("button", { name: "Next testimonial" }));
+    expect(await screen.findByText(second.quote)).toBeInTheDocument();
   });
 
   it("Footer shows the contact email link, pre-filled so it doesn't open a blank compose window, and the watermark", () => {

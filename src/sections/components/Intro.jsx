@@ -34,7 +34,7 @@ export default function Intro() {
 
   return (
     <section ref={ref} id="about" className="relative px-6 pb-16 pt-36 sm:pb-24 sm:pt-48">
-      <div className="mx-auto grid max-w-5xl gap-6 sm:grid-cols-[1fr_2.1fr] sm:gap-10">
+      <div className="relative z-[1] mx-auto grid max-w-5xl gap-6 sm:grid-cols-[1fr_2.1fr] sm:gap-10">
         <motion.div
           initial={{ opacity: 0, x: -12 }}
           whileInView={{ opacity: 1, x: 0 }}

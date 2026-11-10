@@ -8,8 +8,8 @@ export function Nav() {
       <a href="#about" data-cursor-hover>
         About
       </a>
-      <a href="#experience" data-cursor-hover>
-        Experience
+      <a href="#graphics" data-cursor-hover>
+        Graphics
       </a>
       <a href="#contact" data-cursor-hover>
         Contact

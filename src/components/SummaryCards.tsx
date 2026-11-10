@@ -6,7 +6,8 @@ type Card = {
   label: string;
   value: string;
   detail?: string;
-  icon: ReactElement;
+  logo?: { src: string; alt: string };
+  icon: ReactElement | null;
 };
 
 const iconProps = {
@@ -21,17 +22,6 @@ const iconProps = {
 } as const;
 
 const CARDS: Card[] = [
-  {
-    id: "focus",
-    label: "Currently focused on",
-    value: "AI-powered experiences",
-    icon: (
-      <svg {...iconProps}>
-        <rect x="4" y="5" width="16" height="11" rx="1.5" />
-        <path d="M2 19h20" />
-      </svg>
-    ),
-  },
   {
     id: "location",
     label: "Based in",
@@ -55,13 +45,18 @@ const CARDS: Card[] = [
       </svg>
     ),
   },
+  // Sits at the position the Accenture logo card used to occupy ("craft")
+  // now that "Previously @ Accenture" has moved into plain text under the
+  // bio - this card shows what used to be the separate top-left "focus"
+  // card instead, so removing that one doesn't leave a gap on the other side.
   {
     id: "craft",
-    label: "What I do",
-    value: "Simplify complex workflows",
+    label: "Currently focused on",
+    value: "AI-powered experiences",
     icon: (
       <svg {...iconProps}>
-        <path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2V16h5v-.1c0-.8.4-1.5 1-2A6 6 0 0 0 12 3z" />
+        <rect x="4" y="5" width="16" height="11" rx="1.5" />
+        <path d="M2 19h20" />
       </svg>
     ),
   },
@@ -72,12 +67,18 @@ export function SummaryCards() {
     <ul className="summary-cards" aria-label="Summary">
       {CARDS.map((card) => (
         <li key={card.id} className={`summary-card summary-card-${card.id}`}>
-          <span className="summary-card-icon" aria-hidden="true">
-            {card.icon}
-          </span>
+          {card.icon ? (
+            <span className="summary-card-icon" aria-hidden="true">
+              {card.icon}
+            </span>
+          ) : null}
           <div className="summary-card-text">
             <p className="summary-card-label">{card.label}</p>
-            <p className="summary-card-value">{card.value}</p>
+            {card.logo ? (
+              <img className="summary-card-logo" src={card.logo.src} alt={card.logo.alt} width={900} height={240} />
+            ) : (
+              <p className="summary-card-value">{card.value}</p>
+            )}
             {card.detail ? <p className="summary-card-detail">{card.detail}</p> : null}
           </div>
         </li>

@@ -108,11 +108,27 @@ body {
 }
 
 .hero-bio {
-  margin: 0 0 26px;
+  margin: 0 0 10px;
   max-width: 300px;
   font-size: 0.95rem;
   line-height: 1.6;
   color: rgba(15, 31, 77, 0.8);
+}
+
+/* Plain text, not a floating card like the rest of the summary - this is
+   meant to read as part of the intro copy, not another glass pill. */
+.hero-previously {
+  margin: 0 0 26px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.9rem;
+  color: rgba(15, 31, 77, 0.6);
+}
+
+.hero-previously-logo {
+  height: 19px;
+  width: auto;
 }
 
 .hero-actions {
@@ -322,6 +338,13 @@ body {
   line-height: 1.25;
 }
 
+.summary-card-logo {
+  display: block;
+  margin-top: 5px;
+  width: 96px;
+  height: auto;
+}
+
 .summary-card-detail {
   margin-top: 3px;
   font-size: 0.7rem;
@@ -330,13 +353,6 @@ body {
 }
 
 /* Initial placements (tuned against the face and text column in Task 8). */
-.summary-card-focus {
-  left: 15%;
-  top: 9%;
-  --tilt: -5deg;
-  --float-duration: 8s;
-  --float-delay: 0s;
-}
 .summary-card-location {
   right: 12%;
   top: 17%;
@@ -660,3 +676,4 @@ body {
 /* Clouds inside the Work cards drift, same as the hero's own sky: the user
    asked explicitly for them to keep moving (overrides the earlier
    performance-only decision to freeze them). */
+

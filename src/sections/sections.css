@@ -159,6 +159,36 @@
    height, then fades toward a pale blue in the last stretch so the handoff
    into the footer's own gradient (which starts near-transparent, then
    blue, then navy) reads as one continuous transition rather than a cut. */
+/* Footer cloud rows (see FooterClouds): a row is two tiles in a 200%-wide
+   flex, slid by one tile (-50%) per cycle. Each row is stacked on the others. */
+.footer-cloud-row {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  width: 200%;
+  animation: footer-cloud-drift linear infinite;
+}
+@keyframes footer-cloud-drift {
+  to {
+    transform: translateX(-50%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .footer-cloud-row {
+    animation: none;
+  }
+}
+
 #experience {
   background: linear-gradient(180deg, #ffffff 0%, #ffffff 85%, #cfe9fd 100%);
+}
+
+/* Graphics: a slow, endless drift - the card track and the wavy heading both
+   slide left by exactly one repeat, so the loop has no seam. */
+.graphics-track { animation: graphics-drift 55s linear infinite; }
+.graphics-wave { animation: graphics-wave-drift 22s linear infinite; }
+@keyframes graphics-drift { to { transform: translateX(-50%); } }
+@keyframes graphics-wave-drift { to { transform: translateX(-1200px); } }
+@media (prefers-reduced-motion: reduce) {
+  .graphics-track, .graphics-wave { animation: none; }
 }

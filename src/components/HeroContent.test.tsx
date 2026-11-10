@@ -9,15 +9,18 @@ describe("HeroContent", () => {
     expect(screen.getByText("Sakshi Haste")).toBeInTheDocument();
   });
 
-  it("shows the greeting, role tagline and a one-sentence bio", () => {
+  it("shows the greeting, role tagline and a one-line bio", () => {
     render(<HeroContent />);
     expect(screen.getByText("Hi, I'm")).toBeInTheDocument();
     expect(screen.getByText("UI/UX & Product Designer")).toBeInTheDocument();
-    expect(
-      screen.getByText(
-        "Designing clear, thoughtful digital experiences across product, UX and visual design."
-      )
-    ).toBeInTheDocument();
+    expect(screen.getByText("Designing for scalable, complex digital products.")).toBeInTheDocument();
+  });
+
+  it("shows Previously @ with the Accenture logo, as plain text rather than a card", () => {
+    render(<HeroContent />);
+    expect(screen.getByText(/previously @/i)).toBeInTheDocument();
+    const logo = screen.getByAltText("Accenture");
+    expect(logo).toHaveAttribute("src", "/accenture-navy.webp");
   });
 
   it("links the Resume button to the PDF, opened in a new tab", () => {

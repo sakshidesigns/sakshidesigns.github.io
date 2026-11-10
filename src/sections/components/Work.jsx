@@ -86,7 +86,7 @@ function StackCard({ item, index, total, progress, reduce }) {
               href={item.cta.href}
               {...(item.cta.href.startsWith('/') ? {} : { target: '_blank', rel: 'noreferrer' })}
               aria-label={`View case study: ${item.title}`}
-              className="work-card-glass relative block w-full max-w-xl shrink-0 rounded-[1.75rem] p-8 sm:p-10"
+              className="work-card-glass relative block w-full max-w-xl shrink-0 rounded-[1.75rem] p-8 sm:p-10 md:flex md:min-h-[90%] md:flex-col"
             >
               <div className="mb-8 flex items-center justify-between">
                 <span className="flex h-10 w-10 items-center justify-center rounded-full bg-white/20 text-sm font-bold text-white ring-1 ring-white/30">
@@ -96,7 +96,7 @@ function StackCard({ item, index, total, progress, reduce }) {
               </div>
               <div className="mb-8 h-px w-full bg-white/15" />
 
-              <div className="text-center md:text-left">
+              <div className="text-center md:my-auto md:text-left">
                 <h3 className="mb-5 text-2xl font-extrabold leading-tight text-white sm:text-3xl">
                   {item.title}
                 </h3>
@@ -163,6 +163,9 @@ function StackCard({ item, index, total, progress, reduce }) {
                     className={[
                       'h-full w-full object-contain',
                       item.id === '03' ? 'object-right' : '',
+                      // DataAssist's laptop + phone shot filled the whole region
+                      // and met the card's edges and the info panel; an inset pulls it in.
+                      item.id === '04' ? 'py-10 pl-20 pr-10 object-right' : '',
                     ].filter(Boolean).join(' ')}
                   />
                 </div>
@@ -216,7 +219,7 @@ export default function Work() {
         eyebrow={workHeading.eyebrow}
         title={workHeading.title}
         subtitle={workHeading.subtitle}
-        className="pb-8 pt-8 sm:pb-10 sm:pt-16"
+        className="relative z-[1] pb-8 pt-8 sm:pb-10 sm:pt-16"
       />
       {reduce ? (
         <div className="relative">

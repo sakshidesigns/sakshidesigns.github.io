@@ -5,11 +5,13 @@ import { MagneticCursor } from "./components/MagneticCursor";
 import { SiteSky } from "./components/SiteSky";
 import { useInteractionTracking } from "./hooks/useInteractionTracking";
 import CaseStudy from "./sections/caseStudy/CaseStudy";
-import Experience from "./sections/components/Experience";
+import Graphics from "./sections/components/Graphics";
 import Footer from "./sections/components/Footer";
 import Intro from "./sections/components/Intro";
+import PaperPlaneTrail from "./sections/components/PaperPlaneTrail";
 import ScrollProgress from "./sections/components/ScrollProgress";
 import Work from "./sections/components/Work";
+import Testimonials from "./sections/components/Testimonials";
 import Writing from "./sections/components/Writing";
 
 // No router library for just a handful of case-study pages: a plain path
@@ -45,10 +47,15 @@ export function App() {
         <Hero />
         <div className="site-sections">
           <SiteSky />
-          <Intro />
-          <Work />
+          {/* One wrapper so the plane can fly across both sections, behind their content. */}
+          <div className="relative">
+            <Intro />
+            <Work />
+            <PaperPlaneTrail />
+          </div>
           <Writing />
-          <Experience />
+          <Graphics />
+          <Testimonials />
           <Footer />
         </div>
       </main>
