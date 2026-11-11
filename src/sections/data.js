@@ -9,8 +9,8 @@ export const profile = {
   location: 'Pune, India',
   experience: '3+ Years',
   socials: {
-    linkedin: 'https://linkedin.com/',
-    behance: 'https://behance.net/',
+    linkedin: 'https://www.linkedin.com/in/sakshi-haste-693318205',
+    behance: 'https://www.behance.net/sakshihaste',
   },
 }
 
